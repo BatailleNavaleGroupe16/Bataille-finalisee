@@ -4,8 +4,8 @@ public class Bateau {
 	
     Scanner sc = new Scanner(System.in);
     public byte taille;
-    public byte debutH;
-    public byte debutV;
+    public byte debutL;
+    public byte debutC;
     public byte numero;
     public byte[][] grille;
     public byte estVertical; //1 pour vertical 2 pour horizontal
@@ -40,7 +40,7 @@ public class Bateau {
             
             
         }
-        //joueur.afficheGrille(joueur.bateaux);
+        joueur.afficheGrille(joueur.bateaux);
     }
     
     
@@ -53,13 +53,13 @@ public class Bateau {
         
         do{
             System.out.println("Veuillez saisir la ligne de la position la plus à gauche et la plus en haut de votre bateau n° : "+(numero) + " de taille " + this.taille);
-            this.debutV = (byte)sc.nextInt();
-        }while(debutV < 1 || debutV > 10);//doit être dans la grille
+            this.debutL = (byte)sc.nextInt();
+        }while(debutL < 1 || debutL > 10);//doit être dans la grille
         
         do{
             System.out.println("Veuillez saisir la colonne de la position la plus à gauche et la plus en haut de votre bateau n° : "+(numero) + " de taille " + this.taille);
-            this.debutH = (byte)sc.nextInt();
-        }while(debutH < 1 || debutH > 10);//doit être dans la grille
+            this.debutC = (byte)sc.nextInt();
+        }while(debutC < 1 || debutC > 10);//doit être dans la grille
         
         do{
             System.out.println("Veuillez saisir l'orientation de votre bateau : VERTICAL : 1 / HORIZONTAL : 2 ");
@@ -76,24 +76,11 @@ public class Bateau {
      */
     public void placementOrdi () {
         
-        this.debutH = (byte)((this.grille.length-2)*Math.random()+1);
-        this.debutV = (byte)((this.grille[0].length-2)*Math.random()+1);
+        this.debutL = (byte)((this.grille.length-2)*Math.random()+1);
+        this.debutC = (byte)((this.grille[0].length-2)*Math.random()+1);
         this.estVertical = (byte)(2*Math.random()+1);
-        System.out.println("debH"+debutH+" debV"+debutV+" vert"+estVertical);
+        System.out.println("debL"+debutL+" debC"+debutC+" vert"+estVertical);
         
-    }
-    
-    
-    public void placer () {
-        if (this.estVertical == 1) {
-            for (byte i = 0; i < this.taille; i++) {
-                this.grille[this.debutV+i][this.debutH] = this.numero;
-            }
-        } else {
-            for (byte i = 0; i < this.taille; i++) {
-                this.grille[this.debutV][this.debutH+i] = this.numero;
-            }
-        }
     }
     
     
@@ -103,18 +90,32 @@ public class Bateau {
         
         if(estVertical == 1){
             while(i < this.taille /*&& this.debutH - i < 0*/ && bool){//positionnement entre les bornes de la taille du bateau, vérif si bien dans le tableau de la grille
-                bool = (this.grille[this.debutH][this.debutV+i] == 0);
+                bool = (this.grille[this.debutL+i][this.debutC] == 0);
                 i++;
             }
             
         }else{
             while(i < this.taille /*&& this.debutH - i < 0*/ && bool){
-                bool = (this.grille[this.debutH+i][this.debutV] == 0);
+                bool = (this.grille[this.debutL][this.debutC+i] == 0);
                 i++;
             }
         }
         return bool;
     }
+    
+    public void placer () {
+        if (this.estVertical == 1) {
+            for (byte i = 0; i < this.taille; i++) {
+                this.grille[this.debutL+i][this.debutC] = this.numero;
+            }
+        } else {
+            for (byte i = 0; i < this.taille; i++) {
+                this.grille[this.debutL][this.debutC+i] = this.numero;
+            }
+        }
+    }
+    
+    
     
     
     
